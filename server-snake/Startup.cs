@@ -7,6 +7,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace server_snake
 {
+    using System.Drawing;
+    using server_snake.Entities;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -26,6 +29,11 @@ namespace server_snake
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            var defaultSnake = new Snake(
+                Direction.Rigth,
+                new[] { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2), });
+            services.AddSingleton(typeof(Snake), defaultSnake);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

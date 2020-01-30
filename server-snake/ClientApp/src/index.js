@@ -13,11 +13,18 @@ store.subscribe(() => ReactDOM.render(
   document.getElementById('root'))
 );
 
-document.onkeydown = e => {
+document.onkeydown = async e => {
   e = e || window.event;
   const nextDirection = directionByKeyCode[e.keyCode];
   if (nextDirection) {
     store.dispatch({ type: "SET_NEXT_DIRECTION", nextDirection })
+
+    await fetch("snake", {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: nextDirection
+    });
+
     e.preventDefault();
   }
 }
