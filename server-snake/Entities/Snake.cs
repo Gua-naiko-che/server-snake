@@ -9,7 +9,6 @@
         public Direction? NextDirection { get; set; }
         public IEnumerable<Point> Body { get; set; }
 
-
         public Snake(Direction direction, IEnumerable<Point> body)
         {
             CurrentDirection = direction;

@@ -1,14 +1,14 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace server_snake
 {
     using System.Drawing;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using server_snake.Entities;
+    using server_snake.Hubs;
 
     public class Startup
     {
@@ -34,6 +34,10 @@ namespace server_snake
                 Direction.Rigth,
                 new[] { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2), });
             services.AddSingleton(typeof(Snake), defaultSnake);
+            services.AddSingleton(typeof(SnakeHub), new SnakeHub(defaultSnake));
+
+            services.AddSignalR();
+            services.AddHostedService<GameLoop>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +65,7 @@ namespace server_snake
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<SnakeHub>("/hub");
             });
 
             app.UseSpa(spa =>
