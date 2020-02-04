@@ -17,7 +17,7 @@
         public async Task SendMessage(CancellationToken stoppingToken)
         {
             if (Clients == null) return;
-            await Clients.All.SendAsync("GameState", _snake.NextDirection?.ToString(), stoppingToken);
+            await Clients.All.SendAsync("GameState", _snake.Body, stoppingToken);
         }
     }
 }

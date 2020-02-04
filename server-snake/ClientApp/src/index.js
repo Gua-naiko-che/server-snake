@@ -4,7 +4,7 @@ import Board from './Board';
 import { game } from "./game";
 import { createStore } from "redux";
 import { directionByKeyCode } from "./directions";
-import { ServerMessages } from './ServerMessages';
+import { Bodies } from './Bodies';
 import * as signalR from "@microsoft/signalr";
 
 const SNAKE_SPEED = 150;
@@ -16,7 +16,7 @@ store.subscribe(() => {
   ReactDOM.render(
     <div>
       <Board {...state} />
-      <ServerMessages {...state} />
+      <Bodies {...state} />
     </div>,
     document.getElementById('root'))
 });
@@ -24,8 +24,8 @@ store.subscribe(() => {
 const connection = new signalR.HubConnectionBuilder()
   .withUrl("/hub")
   .build();
-connection.on("GameState", message => {
-  store.dispatch({ type: "ADD_SERVER_MESSAGE", message })
+connection.on("GameState", body => {
+  store.dispatch({ type: "ADD_BODY", body })
 });
 connection.start();
 

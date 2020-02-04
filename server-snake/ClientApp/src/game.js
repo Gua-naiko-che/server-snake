@@ -17,7 +17,7 @@ const defaultGame = {
   food: getRandomFood(BOARD_SIZE, START_SNAKE),
   boardSize: BOARD_SIZE,
   isOver: false,
-  messages: []
+  bodies: []
 };
 
 export function game(state = defaultGame, action) {
@@ -36,8 +36,8 @@ export function game(state = defaultGame, action) {
     };
   } else if (action.type === "SET_NEXT_DIRECTION") {
     return { ...state, nextDirection: action.nextDirection };
-  } else if (action.type === "ADD_SERVER_MESSAGE") {
-    return { ...state, messages: [...state.messages, action.message] }
+  } else if (action.type === "ADD_BODY") {
+    return { ...state, bodies: [...state.bodies, action.body] }
   }
 
   return state;
